@@ -1,0 +1,147 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-03-13 19:21:28.363331",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "customer_name",
+  "contact_person",
+  "phone_number",
+  "emial",
+  "column1",
+  "tin",
+  "recieved_by",
+  "ordered_date",
+  "delivered_date",
+  "section1",
+  "services",
+  "section2",
+  "full_payment",
+  "column2",
+  "advance_payment",
+  "column3",
+  "remaining_payment",
+  "naming_series"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name"
+  },
+  {
+   "fieldname": "contact_person",
+   "fieldtype": "Data",
+   "label": "Contact Person"
+  },
+  {
+   "fieldname": "phone_number",
+   "fieldtype": "Phone",
+   "label": "Phone Number"
+  },
+  {
+   "fieldname": "emial",
+   "fieldtype": "Data",
+   "label": "Email Address"
+  },
+  {
+   "fieldname": "column1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tin",
+   "fieldtype": "Int",
+   "label": "Tin Numebr"
+  },
+  {
+   "fieldname": "recieved_by",
+   "fieldtype": "Link",
+   "label": "Recieved By",
+   "options": "User"
+  },
+  {
+   "fieldname": "ordered_date",
+   "fieldtype": "Date",
+   "label": "Ordered Date"
+  },
+  {
+   "fieldname": "delivered_date",
+   "fieldtype": "Date",
+   "label": "Delivered Date"
+  },
+  {
+   "fieldname": "section1",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "services",
+   "fieldtype": "Table",
+   "label": "Services",
+   "options": "Service Item"
+  },
+  {
+   "fieldname": "section2",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "full_payment",
+   "fieldtype": "Currency",
+   "label": "Full Payment"
+  },
+  {
+   "fieldname": "column2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "advance_payment",
+   "fieldtype": "Currency",
+   "label": "Advance Payment"
+  },
+  {
+   "fieldname": "column3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "remaining_payment",
+   "fieldtype": "Currency",
+   "label": "Remaining Payment"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "series",
+   "options": "ORD-.MM.-.YYYY.-.#####",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-03-14 02:37:08.814371",
+ "modified_by": "Administrator",
+ "module": "Order Management",
+ "name": "Order",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
