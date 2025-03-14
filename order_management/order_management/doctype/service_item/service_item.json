@@ -11,6 +11,7 @@
   "unit_price",
   "total_price",
   "assigned_to",
+  "workshop",
   "status"
  ],
  "fields": [
@@ -41,27 +42,37 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Total Price",
+   "read_only": 1,
    "reqd": 1
   },
   {
    "fieldname": "assigned_to",
    "fieldtype": "Link",
-   "label": "Assigned to",
-   "options": "User",
-   "reqd": 1
+   "in_list_view": 1,
+   "label": "Designed By",
+   "options": "User"
   },
   {
    "fieldname": "status",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Status",
    "options": "Pending\nCompleted",
+   "read_only": 1,
    "reqd": 1
+  },
+  {
+   "fieldname": "workshop",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Workshop",
+   "options": "User"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-03-13 19:51:05.603489",
+ "modified": "2025-03-13 20:53:44.567426",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Service Item",

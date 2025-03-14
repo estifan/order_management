@@ -17,6 +17,7 @@
   "recieved_by",
   "ordered_date",
   "delivered_date",
+  "status",
   "section1",
   "services",
   "section2",
@@ -61,12 +62,14 @@
    "fieldname": "recieved_by",
    "fieldtype": "Link",
    "label": "Recieved By",
-   "options": "User"
+   "options": "User",
+   "read_only": 1
   },
   {
    "fieldname": "ordered_date",
    "fieldtype": "Date",
-   "label": "Ordered Date"
+   "label": "Ordered Date",
+   "read_only": 1
   },
   {
    "fieldname": "delivered_date",
@@ -117,11 +120,19 @@
    "label": "series",
    "options": "ORD-.MM.-.YYYY.-.#####",
    "reqd": 1
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Status",
+   "options": "Pending\nIn progress\nCompleted\nDelivered"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-14 02:37:08.814371",
+ "modified": "2025-03-14 07:46:30.998253",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Order",
@@ -143,5 +154,7 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1
 }

@@ -65,6 +65,11 @@ frappe.ui.form.on('Service Item', {
         let total_price = row.quantity * row.unit_price;
         frappe.model.set_value(cdt, cdn, 'total_price', total_price);
     },
+	unit_price: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+        let total_price = row.quantity * row.unit_price;
+        frappe.model.set_value(cdt, cdn, 'total_price', total_price);
+    },
 
 });
 
