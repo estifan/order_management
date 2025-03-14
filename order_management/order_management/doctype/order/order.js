@@ -2,6 +2,10 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Order', {
+	refresh: function(frm) {
+        calculate_total_payment(frm);
+    },
+
     services_add: function (frm) {
         calculateTotals(frm);
     },
@@ -156,6 +160,7 @@ frappe.ui.form.on('Order', {
     },
 
 });
+
 frappe.ui.form.on('Service Item', {
     service: function (frm, cdt, cdn) {
         let row = locals[cdt][cdn];
@@ -202,4 +207,23 @@ function calculateTotals(frm) {
         total_order_price += item.total_price;
     });
     frm.set_value('full_payment', total_order_price);
+}
+
+frappe.ui.form.on('Service Item', {
+    total_price: function(frm, cdt, cdn) {
+        calculate_total_payment(frm);
+    },
+    services_remove: function(frm) {
+        calculate_total_payment(frm);
+    }
+});
+
+function calculate_total_payment(frm) {
+    let total = 0;
+    if (frm.doc.services) {
+        frm.doc.services.forEach(row => {
+            total += row.total_price || 0;
+        });
+    }
+    frm.set_value('full_payment', total);
 }
