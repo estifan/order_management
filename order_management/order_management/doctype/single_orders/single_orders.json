@@ -14,7 +14,7 @@
   "workshoped",
   "column1",
   "order_number",
-  "revieved_by",
+  "recieved_by",
   "customer_name",
   "contact_person",
   "status",
@@ -41,12 +41,6 @@
    "fieldtype": "Link",
    "label": "Order Number",
    "options": "Order"
-  },
-  {
-   "fieldname": "revieved_by",
-   "fieldtype": "Link",
-   "label": "Received By",
-   "options": "User"
   },
   {
    "fieldname": "customer_name",
@@ -80,11 +74,17 @@
    "fieldname": "source_docname",
    "fieldtype": "Data",
    "label": "Source Row"
+  },
+  {
+   "fieldname": "recieved_by",
+   "fieldtype": "Link",
+   "label": "Received By",
+   "options": "User"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-14 19:38:39.725830",
+ "modified": "2025-03-14 20:34:43.416687",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Single Orders",

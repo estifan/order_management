@@ -2,15 +2,11 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Order', {
-	refresh: function(frm) {
-        calculate_total_payment(frm);
-    },
-
-    services_add: function (frm) {
+	services_add: function(frm) {
         calculateTotals(frm);
     },
 
-    advance_payment: function (frm) {
+	advance_payment: function(frm) {
         if (frm.doc.full_payment && frm.doc.advance_payment) {
             frm.set_value('remaining_payment', frm.doc.full_payment - frm.doc.advance_payment);
         } else {
@@ -18,7 +14,7 @@ frappe.ui.form.on('Order', {
         }
     },
 
-    full_payment: function (frm) {
+	full_payment: function(frm) {
         if (frm.doc.full_payment && frm.doc.advance_payment) {
             frm.set_value('remaining_payment', frm.doc.full_payment - frm.doc.advance_payment);
         } else {
@@ -26,14 +22,14 @@ frappe.ui.form.on('Order', {
         }
     },
 
-    before_save: function (frm) {
-
-        let today = new Date();
-        let formattedDate = today.toISOString().split('T')[0];
-
-        frappe.model.set_value(frm.doctype, frm.docname, 'ordered_date', formattedDate);
-        console.log('Ordered date set to:', formattedDate);
-
+	before_save: function(frm) {
+        
+            let today = new Date();
+            let formattedDate = today.toISOString().split('T')[0]; 
+    
+            frappe.model.set_value(frm.doctype, frm.docname, 'ordered_date', formattedDate);
+            console.log('Ordered date set to:', formattedDate);
+    
     },
 	after_save: function(frm) {
         let assigned_users = [];
@@ -90,7 +86,7 @@ frappe.ui.form.on('Order', {
                                                         doctype: 'Single Orders',
                                                         service: user.service,
                                                         customer_name: frm.doc.customer_name,
-                                                        revieved_by: frm.doc.recieved_by,
+                                                        recieved_by: frm.doc.recieved_by,
 														contact_person: frm.doc.contact_person,
                                                         qty: user.qty,
                                                         designed: user.designed,
@@ -103,7 +99,7 @@ frappe.ui.form.on('Order', {
                                                 callback: function(r) {
                                                     if (!r.exc) {
                                                         frappe.show_alert({
-                                                            message: __('Single Order created with Service {0} and quantity {1}', [user.service, user.qty]),
+                                                            message: __('Single Order created with item_code {0} and quantity {1}', [user.service, user.qty]),
                                                             indicator: 'green',
                                                             persist: true
                                                         });
@@ -160,9 +156,8 @@ frappe.ui.form.on('Order', {
     },
 
 });
-
 frappe.ui.form.on('Service Item', {
-    service: function (frm, cdt, cdn) {
+    service: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
 
         frappe.model.set_value(cdt, cdn, 'quantity', 1);
@@ -175,7 +170,7 @@ frappe.ui.form.on('Service Item', {
                 fields: ['price'],
                 limit: 1
             },
-            callback: function (r) {
+            callback: function(r) {
                 if (r.message && r.message.length > 0) {
                     let unit_price = r.message[0].price;
                     frappe.model.set_value(cdt, cdn, 'unit_price', unit_price);
@@ -188,12 +183,7 @@ frappe.ui.form.on('Service Item', {
             }
         });
     },
-    quantity: function (frm, cdt, cdn) {
-        let row = locals[cdt][cdn];
-        let total_price = row.quantity * row.unit_price;
-        frappe.model.set_value(cdt, cdn, 'total_price', total_price);
-    },
-    unit_price: function (frm, cdt, cdn) {
+	quantity: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
         let total_price = row.quantity * row.unit_price;
         frappe.model.set_value(cdt, cdn, 'total_price', total_price);
@@ -207,23 +197,4 @@ function calculateTotals(frm) {
         total_order_price += item.total_price;
     });
     frm.set_value('full_payment', total_order_price);
-}
-
-frappe.ui.form.on('Service Item', {
-    total_price: function(frm, cdt, cdn) {
-        calculate_total_payment(frm);
-    },
-    services_remove: function(frm) {
-        calculate_total_payment(frm);
-    }
-});
-
-function calculate_total_payment(frm) {
-    let total = 0;
-    if (frm.doc.services) {
-        frm.doc.services.forEach(row => {
-            total += row.total_price || 0;
-        });
-    }
-    frm.set_value('full_payment', total);
 }
