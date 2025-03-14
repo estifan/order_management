@@ -75,6 +75,7 @@
   {
    "fieldname": "source_docname",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Source Row"
   },
   {
@@ -87,7 +88,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-14 12:14:39.843058",
+ "modified": "2025-03-14 22:25:00.076703",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Single Orders",
