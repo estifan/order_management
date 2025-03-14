@@ -32,17 +32,20 @@
   {
    "fieldname": "customer_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Customer Name"
   },
   {
    "fieldname": "contact_person",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Contact Person"
   },
   {
    "default": "+251-",
    "fieldname": "phone_number",
    "fieldtype": "Phone",
+   "in_standard_filter": 1,
    "label": "Phone Number"
   },
   {
@@ -62,6 +65,7 @@
   {
    "fieldname": "recieved_by",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Recieved By",
    "options": "User",
    "read_only": 1
@@ -69,12 +73,14 @@
   {
    "fieldname": "ordered_date",
    "fieldtype": "Date",
+   "in_list_view": 1,
    "label": "Ordered Date",
    "read_only": 1
   },
   {
    "fieldname": "delivered_date",
    "fieldtype": "Date",
+   "in_list_view": 1,
    "label": "Delivered Date"
   },
   {
@@ -94,6 +100,7 @@
   {
    "fieldname": "full_payment",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Full Payment"
   },
   {
@@ -103,6 +110,7 @@
   {
    "fieldname": "advance_payment",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Advance Payment"
   },
   {
@@ -112,15 +120,16 @@
   {
    "fieldname": "remaining_payment",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Remaining Payment"
   },
   {
+   "default": "ORD-.#####",
    "fieldname": "naming_series",
    "fieldtype": "Select",
-   "in_list_view": 1,
+   "hidden": 1,
    "label": "series",
-   "options": "ORD-.MM.-.YYYY.-.#####",
-   "reqd": 1
+   "options": "ORD-.#####"
   },
   {
    "default": "Pending",
@@ -133,7 +142,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-14 10:18:51.994551",
+ "modified": "2025-03-14 11:38:49.463925",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Order",
