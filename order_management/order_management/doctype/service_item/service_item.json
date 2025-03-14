@@ -10,8 +10,8 @@
   "quantity",
   "unit_price",
   "total_price",
-  "assigned_to",
-  "workshop",
+  "designed",
+  "workshoped",
   "status"
  ],
  "fields": [
@@ -46,13 +46,6 @@
    "reqd": 1
   },
   {
-   "fieldname": "assigned_to",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Designed By",
-   "options": "User"
-  },
-  {
    "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
@@ -62,7 +55,14 @@
    "reqd": 1
   },
   {
-   "fieldname": "workshop",
+   "fieldname": "designed",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Designed By",
+   "options": "User"
+  },
+  {
+   "fieldname": "workshoped",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Workshop",
@@ -72,7 +72,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-03-13 20:53:44.567426",
+ "modified": "2025-03-14 19:23:02.333705",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Service Item",
