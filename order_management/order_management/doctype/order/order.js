@@ -86,7 +86,7 @@ frappe.ui.form.on('Order', {
                                                         doctype: 'Single Orders',
                                                         service: user.service,
                                                         customer_name: frm.doc.customer_name,
-                                                        revieved_by: frm.doc.recieved_by,
+                                                        recieved_by: frm.doc.recieved_by,
 														contact_person: frm.doc.contact_person,
                                                         qty: user.qty,
                                                         designed: user.designed,
