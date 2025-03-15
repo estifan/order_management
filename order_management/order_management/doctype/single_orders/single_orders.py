@@ -40,8 +40,7 @@ class SingleOrders(Document):
 	# 		print("Order and service status updated successfully.")
 
 	def handle_status_change(self):
-		doc = frappe.db.get_value("Order", self.order_number, "*", as_dict=True, ignore_permissions=True)
-		# doc = frappe.get_doc("Order", self.order_number)
+		doc = frappe.get_doc("Order", self.order_number)
 		status_changed = False  # Flag to track changes
 
 		for child in doc.get("services"):
