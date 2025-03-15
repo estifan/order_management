@@ -40,33 +40,33 @@ class SingleOrders(Document):
 	# 		frappe.db.commit()
 	# 		print("Order and service status updated successfully.")
 
-	def handle_status_change(self):
-    # Fetch the parent order document
-		doc = frappe.get_doc("Order", self.order_number)
-		status_changed = False  # Flag to track changes
+	# def handle_status_change(self):
+    # # Fetch the parent order document
+	# 	doc = frappe.get_doc("Order", self.order_number)
+	# 	status_changed = False  # Flag to track changes
 
-		for child in doc.get("services"):
-			if child.name == self.source_docname and child.status != self.status:
-				child.status = self.status
-				status_changed = True  # Track that a change happened
+	# 	for child in doc.get("services"):
+	# 		if child.name == self.source_docname and child.status != self.status:
+	# 			child.status = self.status
+	# 			status_changed = True  # Track that a change happened
 
-		# Check if any service is not pending
-		if any(child.status != "Pending" for child in doc.get("services")):
-			if(doc.status != "In progress"):
-				doc.status = "In progress"
-				doc.workflow_state = "In progress"
-				status_changed = True  # Track that a change happened
-		if all(child.status == "Completed" for child in doc.get("services")):
-			if(doc.status != "Completed"):
-				doc.status = "Completed"
-				doc.workflow_state = "Completed"
-				status_changed = True  # Track that a change happened
+	# 	# Check if any service is not pending
+	# 	if any(child.status != "Pending" for child in doc.get("services")):
+	# 		if(doc.status != "In progress"):
+	# 			doc.status = "In progress"
+	# 			doc.workflow_state = "In progress"
+	# 			status_changed = True  # Track that a change happened
+	# 	if all(child.status == "Completed" for child in doc.get("services")):
+	# 		if(doc.status != "Completed"):
+	# 			doc.status = "Completed"
+	# 			doc.workflow_state = "Completed"
+	# 			status_changed = True  # Track that a change happened
 
-		# Save only if there's a change
-		if status_changed:
-			doc.save(ignore_permissions=True)
-			frappe.db.commit()
-			print("Order and service status updated successfully.")
+	# 	# Save only if there's a change
+	# 	if status_changed:
+	# 		doc.save(ignore_permissions=True)
+	# 		frappe.db.commit()
+	# 		print("Order and service status updated successfully.")
 
 
 		
