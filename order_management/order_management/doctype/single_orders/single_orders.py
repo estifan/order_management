@@ -12,8 +12,9 @@ def jump_workflow(docname, action):
 
 class SingleOrders(Document):
 	def validate(self):
+		pass
 		# self.handle_workflow_jump()
-		self.handle_status_change()
+		#self.handle_status_change()
 
 	# def after_save(self):
 	# 	doc = frappe.get_doc("Single Orders", self.name)
@@ -41,9 +42,9 @@ class SingleOrders(Document):
 
 	def handle_status_change(self):
     # Fetch the parent order document
-		order_name = frappe.get_all("Order", filters={"name": self.order_number}, pluck="name")
-		doc = frappe.get_doc("Order", order_name[0])
+		doc = frappe.get_doc("Order", self.order_number)
 		status_changed = False  # Flag to track changes
+
 		for child in doc.get("services"):
 			if child.name == self.source_docname and child.status != self.status:
 				child.status = self.status
