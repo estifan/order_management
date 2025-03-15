@@ -41,6 +41,7 @@ class SingleOrders(Document):
 
 	def handle_status_change(self):
     # Fetch the parent order document
+		frappe.flags.ignore_permissions = True
 		doc = frappe.get_doc("Order", self.order_number)
 		status_changed = False  # Flag to track changes
 
