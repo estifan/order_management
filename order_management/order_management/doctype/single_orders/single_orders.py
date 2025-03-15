@@ -40,9 +40,9 @@ class SingleOrders(Document):
 	# 		print("Order and service status updated successfully.")
 
 	def handle_status_change(self):
-    # Fetch the parent order document
-		frappe.flags.ignore_permissions = True
 		doc = frappe.get_doc("Order", self.order_number)
+		doc.flags.ignore_permissions = True
+
 		status_changed = False  # Flag to track changes
 
 		for child in doc.get("services"):
@@ -50,24 +50,27 @@ class SingleOrders(Document):
 				child.status = self.status
 				status_changed = True  # Track that a change happened
 
-		# Check if any service is not pending
-		if any(child.status != "Pending" for child in doc.get("services")):
-			if(doc.status != "In progress"):
+		# Determine new status based on child services
+		service_statuses = [child.status for child in doc.get("services")]
+
+		if any(status != "Pending" for status in service_statuses):
+			if doc.status != "In progress":
 				doc.status = "In progress"
 				doc.workflow_state = "In progress"
-				status_changed = True  # Track that a change happened
-		if all(child.status == "Completed" for child in doc.get("services")):
-			if(doc.status != "Completed"):
+				status_changed = True
+
+		if all(status == "Completed" for status in service_statuses):
+			if doc.status != "Completed":
 				doc.status = "Completed"
 				doc.workflow_state = "Completed"
-				status_changed = True  # Track that a change happened
+				status_changed = True
 
 		# Save only if there's a change
 		if status_changed:
 			doc.save(ignore_permissions=True)
 			frappe.db.commit()
-			print("Order and service status updated successfully.")
-		frappe.flags.ignore_permissions = False
+			frappe.logger().info(f"Order {self.order_number} and service status updated successfully.")
+
 
 
 		
