@@ -55,6 +55,11 @@ class SingleOrders(Document):
 				doc.status = "In progress"
 				doc.workflow_state = "In progress"
 				status_changed = True  # Track that a change happened
+		if all(child.status == "Completed" for child in doc.get("services")):
+			if(doc.status != "Completed"):
+				doc.status = "Completed"
+				doc.workflow_state = "Completed"
+				status_changed = True  # Track that a change happened
 
 		# Save only if there's a change
 		if status_changed:
