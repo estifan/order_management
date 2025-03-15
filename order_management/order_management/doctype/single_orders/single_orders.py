@@ -41,10 +41,9 @@ class SingleOrders(Document):
 
 	def handle_status_change(self):
     # Fetch the parent order document
-		frappe.flags.ignore_permissions = True
-		doc = frappe.get_doc("Order", self.order_number)
+		order_name = frappe.get_all("Order", filters={"name": self.order_number}, pluck="name")
+		doc = frappe.get_doc("Order", order_name[0])
 		status_changed = False  # Flag to track changes
-
 		for child in doc.get("services"):
 			if child.name == self.source_docname and child.status != self.status:
 				child.status = self.status
