@@ -12,7 +12,7 @@ def jump_workflow(docname, action):
 
 class SingleOrders(Document):
 	def validate(self):
-		self.handle_workflow_jump()
+		# self.handle_workflow_jump()
 		self.handle_status_change()
 
 	def after_save(self):
