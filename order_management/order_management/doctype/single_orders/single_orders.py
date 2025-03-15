@@ -41,6 +41,7 @@ class SingleOrders(Document):
 
 	def handle_status_change(self):
     # Fetch the parent order document
+		frappe.flags.ignore_permissions = True
 		doc = frappe.get_doc("Order", self.order_number)
 		status_changed = False  # Flag to track changes
 
@@ -66,6 +67,7 @@ class SingleOrders(Document):
 			doc.save(ignore_permissions=True)
 			frappe.db.commit()
 			print("Order and service status updated successfully.")
+		frappe.flags.ignore_permissions = False
 
 
 		
