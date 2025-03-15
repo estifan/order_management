@@ -32,18 +32,20 @@
   {
    "fieldname": "customer_name",
    "fieldtype": "Data",
-   "label": "Customer Name"
+   "label": "Customer Name",
+   "reqd": 1
   },
   {
    "fieldname": "contact_person",
    "fieldtype": "Data",
-   "label": "Contact Person"
+   "label": "Contact Person",
+   "reqd": 1
   },
   {
-   "default": "+251-",
    "fieldname": "phone_number",
    "fieldtype": "Phone",
-   "label": "Phone Number"
+   "label": "Phone Number",
+   "reqd": 1
   },
   {
    "fieldname": "emial",
@@ -70,12 +72,14 @@
    "fieldname": "ordered_date",
    "fieldtype": "Date",
    "label": "Ordered Date",
-   "read_only": 1
+   "read_only": 1,
+   "reqd": 1
   },
   {
    "fieldname": "delivered_date",
    "fieldtype": "Date",
-   "label": "Delivered Date"
+   "label": "Delivered Date",
+   "reqd": 1
   },
   {
    "fieldname": "section1",
@@ -117,10 +121,10 @@
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
+   "hidden": 1,
    "in_list_view": 1,
    "label": "series",
-   "options": "ORD-.MM.-.YYYY.-.#####",
-   "reqd": 1
+   "options": "ORD-.MM.-.YYYY.-.#####"
   },
   {
    "default": "Pending",
@@ -133,7 +137,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-14 08:36:44.444834",
+ "modified": "2025-03-15 07:47:23.975912",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Order",

@@ -8,6 +8,15 @@ class Order(Document):
     def validate(self):
         self.calculate_totals()
         self.set_recieved_by()
+        self.validate_services_table()
+
+    def validate_services_table(self):
+        if self.services and isinstance(self.services, list):
+            for item in self.services:
+                if  not item.designed and not item.workshoped:
+                    frappe.throw(
+                    f"Row {item.idx}: At least either 'Designed' or 'Workshopped' must be filled in the Services table."
+                )
 
     def calculate_totals(self):
         full_payment = 0
