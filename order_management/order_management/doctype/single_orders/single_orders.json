@@ -26,13 +26,15 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Service",
-   "options": "Service"
+   "options": "Service",
+   "read_only": 1
   },
   {
    "fieldname": "qty",
    "fieldtype": "Int",
    "in_list_view": 1,
-   "label": "Quantity"
+   "label": "Quantity",
+   "read_only": 1
   },
   {
    "fieldname": "column1",
@@ -42,53 +44,60 @@
    "fieldname": "order_number",
    "fieldtype": "Link",
    "label": "Order Number",
-   "options": "Order"
+   "options": "Order",
+   "read_only": 1
   },
   {
    "fieldname": "customer_name",
    "fieldtype": "Data",
-   "label": "Customer Name"
+   "label": "Customer Name",
+   "read_only": 1
   },
   {
    "fieldname": "contact_person",
    "fieldtype": "Data",
-   "label": "Contact Person"
+   "label": "Contact Person",
+   "read_only": 1
   },
   {
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Pending\nDesigning\nWorkshop Pending\nIn Workshop\nCompleted"
+   "options": "Pending\nDesigning\nWorkshop Pending\nIn Workshop\nCompleted",
+   "read_only": 1
   },
   {
    "fieldname": "designed",
    "fieldtype": "Link",
    "label": "Designed By",
-   "options": "User"
+   "options": "User",
+   "read_only": 1
   },
   {
    "fieldname": "workshoped",
    "fieldtype": "Link",
    "label": "Workshop",
-   "options": "User"
+   "options": "User",
+   "read_only": 1
   },
   {
    "fieldname": "source_docname",
    "fieldtype": "Data",
-   "hidden": 1,
-   "label": "Source Row"
+   "label": "Source Row",
+   "read_only": 1
   },
   {
    "fieldname": "recieved_by",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Received By",
-   "options": "User"
+   "options": "User",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-14 22:25:00.076703",
+ "modified": "2025-03-14 14:32:23.660483",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Single Orders",
@@ -126,9 +135,23 @@
    "role": "Workshop",
    "share": 1,
    "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Super Admin",
+   "share": 1,
+   "write": 1
   }
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1
 }
