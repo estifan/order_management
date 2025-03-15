@@ -33,20 +33,22 @@
    "fieldname": "customer_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Customer Name"
+   "label": "Customer Name",
+   "reqd": 1
   },
   {
    "fieldname": "contact_person",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Contact Person"
+   "label": "Contact Person",
+   "reqd": 1
   },
   {
-   "default": "+251-",
    "fieldname": "phone_number",
    "fieldtype": "Phone",
    "in_standard_filter": 1,
-   "label": "Phone Number"
+   "label": "Phone Number",
+   "reqd": 1
   },
   {
    "fieldname": "emial",
@@ -75,13 +77,14 @@
    "fieldtype": "Date",
    "in_list_view": 1,
    "label": "Ordered Date",
-   "read_only": 1
+   "read_only": 1,
+   "reqd": 1
   },
   {
    "fieldname": "delivered_date",
    "fieldtype": "Date",
-   "in_list_view": 1,
-   "label": "Delivered Date"
+   "label": "Delivered Date",
+   "reqd": 1
   },
   {
    "fieldname": "section1",
@@ -128,8 +131,9 @@
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "hidden": 1,
+   "in_list_view": 1,
    "label": "series",
-   "options": "ORD-.#####"
+   "options": "ORD-.MM.-.YYYY.-.#####"
   },
   {
    "default": "Pending",
@@ -142,7 +146,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-14 11:38:49.463925",
+ "modified": "2025-03-15 07:47:23.975912",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Order",

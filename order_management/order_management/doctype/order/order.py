@@ -8,9 +8,21 @@ class Order(Document):
     def validate(self):
         self.calculate_totals()
         self.set_recieved_by()
+        self.validate_services_table()
+
+    def validate_services_table(self):
+        if self.services and isinstance(self.services, list):
+            for item in self.services:
+                if  not item.designed and not item.workshoped:
+                    frappe.throw(
+                    f"Row {item.idx}: At least either 'Designed' or 'Workshopped' must be filled in the Services table."
+                )
 
     def calculate_totals(self):
-        self.full_payment = sum(item.total_price for item in self.get('services', []))
+        full_payment = 0
+        for item in self.get('services'):
+            full_payment += item.total_price
+        self.full_payment = full_payment
 
     def set_recieved_by(self):
         self.recieved_by = frappe.session.user
@@ -49,6 +61,17 @@ class Order(Document):
                     for existing in existing_orders:
                         order_doc = frappe.get_doc("Single Orders", existing["name"])
 
+                        # Get the previous designed and workshoped users
+                        previous_designed = order_doc.designed
+                        previous_workshoped = order_doc.workshoped
+
+                        # Remove the previous users from the shared document
+                        if previous_designed:
+                            frappe.share.remove("Single Orders", order_doc.name, previous_designed)
+                        if previous_workshoped:
+                            frappe.share.remove("Single Orders", order_doc.name, previous_workshoped)
+
+                        # Update the fields
                         updated_fields = []
                         if order_doc.qty != user["qty"]:
                             order_doc.qty = user["qty"]
