@@ -1,6 +1,3 @@
-# Copyright (c) 2025, Tilet Technologies and contributors
-# For license information, please see license.txt
-
 import frappe
 from frappe.model.document import Document
 
@@ -13,10 +10,10 @@ class Order(Document):
     def validate_services_table(self):
         if self.services and isinstance(self.services, list):
             for item in self.services:
-                if  not item.designed and not item.workshoped:
+                if not item.designed and not item.workshoped:
                     frappe.throw(
-                    f"Row {item.idx}: At least either 'Designed' or 'Workshopped' must be filled in the Services table."
-                )
+                        f"Row {item.idx}: At least either 'Designed' or 'Workshopped' must be filled in the Services table."
+                    )
 
     def calculate_totals(self):
         full_payment = 0
@@ -45,33 +42,25 @@ class Order(Document):
                     })
 
             for user in assigned_users:
-                # Construct dynamic filter
                 filters = {
-                    "service": user["service"],
-                    "customer_name": self.customer_name,
-                    "recieved_by": self.recieved_by,
                     "source_docname": user["name"]
                 }
 
-                # Check for existing Single Orders
                 existing_orders = frappe.get_list("Single Orders", filters=filters, fields=["name"])
-
+                print("user: ",user)
+                print("existing_orders: ",existing_orders)
                 if existing_orders:
-                    # Update the existing Single Orders entry
                     for existing in existing_orders:
                         order_doc = frappe.get_doc("Single Orders", existing["name"])
 
-                        # Get the previous designed and workshoped users
                         previous_designed = order_doc.designed
                         previous_workshoped = order_doc.workshoped
 
-                        # Remove the previous users from the shared document
                         if previous_designed:
                             frappe.share.remove("Single Orders", order_doc.name, previous_designed)
                         if previous_workshoped:
                             frappe.share.remove("Single Orders", order_doc.name, previous_workshoped)
 
-                        # Update the fields
                         updated_fields = []
                         if order_doc.qty != user["qty"]:
                             order_doc.qty = user["qty"]
@@ -85,11 +74,13 @@ class Order(Document):
                             order_doc.workshoped = user["workshoped"]
                             updated_fields.append("workshoped")
 
+                        # if user["workshoped"] and not user["designed"]:
+                        #     order_doc.status = "In Progress"
+
                         if updated_fields:
                             order_doc.save(ignore_permissions=True)
                             frappe.msgprint(f"Updated Single Order {existing['name']} with fields: {', '.join(updated_fields)}", alert=True, indicator="blue")
 
-                            # Share document with the newly assigned users
                             for assigned_user in [user["designed"], user["workshoped"]]:
                                 if assigned_user:
                                     frappe.share.add(
@@ -105,8 +96,13 @@ class Order(Document):
                                     frappe.logger().info(f"Updated and shared Single Orders with user: {assigned_user}")
 
                 else:
-                    # Create a new Single Orders entry
-                    try:
+                    # try:
+                        status = "Pending"
+                        workflow_state = "Pending" 
+                        if user["workshoped"] and not user["designed"]:
+                            status = "Workshop Pending"
+                            workflow_state = "Workshop Pending"
+
                         new_order = frappe.get_doc({
                             "doctype": "Single Orders",
                             "service": user["service"],
@@ -116,16 +112,15 @@ class Order(Document):
                             "qty": user["qty"],
                             "designed": user["designed"],
                             "workshoped": user["workshoped"],
-                            "status": "Pending",
+                            "status": status, 
+                            "workflow_state": workflow_state,
                             "source_docname": user["name"],
                             "order_number": self.name,
                         })
                         new_order.insert(ignore_permissions=True)
 
-                        # Show success message
                         frappe.msgprint(f"Single Order created for {user['service']} with quantity {user['qty']}", alert=True, indicator="green")
 
-                        # Share the document with assigned users
                         for assigned_user in [user["designed"], user["workshoped"]]:
                             if assigned_user:
                                 frappe.share.add(
@@ -140,6 +135,6 @@ class Order(Document):
                                 )
                                 frappe.logger().info(f"Shared Single Orders with user: {assigned_user}")
 
-                    except Exception as e:
-                        frappe.msgprint(f"Error creating Single Order: {str(e)}", indicator="red")
-                        frappe.logger().error(f"Error creating Single Order: {str(e)}")
+                    # except Exception as e:
+                    #     frappe.msgprint(f"Error creating Single Order: {str(e)}", indicator="red")
+                    #     frappe.logger().error(f"Error creating Single Order: {str(e)}")

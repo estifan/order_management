@@ -84,7 +84,8 @@
    "fieldname": "source_docname",
    "fieldtype": "Data",
    "label": "Source Row",
-   "read_only": 1
+   "read_only": 1,
+   "unique": 1
   },
   {
    "fieldname": "recieved_by",
@@ -97,7 +98,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-14 14:32:23.660483",
+ "modified": "2025-03-16 00:15:33.415118",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Single Orders",

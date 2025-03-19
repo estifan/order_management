@@ -127,13 +127,12 @@
    "label": "Remaining Payment"
   },
   {
-   "default": "ORD-.#####",
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "hidden": 1,
    "in_list_view": 1,
    "label": "series",
-   "options": "ORD-.MM.-.YYYY.-.#####"
+   "options": "ORD-.#####"
   },
   {
    "default": "Pending",
@@ -146,7 +145,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-15 07:47:23.975912",
+ "modified": "2025-03-15 21:30:22.236046",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Order",
