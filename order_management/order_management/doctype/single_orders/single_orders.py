@@ -15,32 +15,31 @@ class SingleOrders(Document):
 		# self.handle_workflow_jump()
 		self.handle_status_change()
 
-	def after_save(self):
-		doc = frappe.get_doc("Single Orders", self.name)
-		status_changed = False
-		if doc.status == "Workshop Pending":
-			if not doc.workshoped:
-				if doc.designed:
-					print("Designing only")
-					# jump_workflow(self.name, "Completed")
-					doc.workflow_state = "Completed"
-					doc.status = "Completed"
-					status_changed = True
-		elif doc.status == "Pending":
-			if not doc.designed:
-				if doc.workshoped:
-					print("Workshop only")
-					# jump_workflow(self.name, "Workshop Pending")
-					doc.workflow_state = "Workshop Pending"
-					doc.status = "Workshop Pending"
-					status_changed = True
-		if status_changed:
-			doc.save()
-			frappe.db.commit()
-			print("Order and service status updated successfully.")
+	# def after_save(self):
+	# 	doc = frappe.get_doc("Single Orders", self.name)
+	# 	status_changed = False
+	# 	if doc.status == "Workshop Pending":
+	# 		if not doc.workshoped:
+	# 			if doc.designed:
+	# 				print("Designing only")
+	# 				# jump_workflow(self.name, "Completed")
+	# 				doc.workflow_state = "Completed"
+	# 				doc.status = "Completed"
+	# 				status_changed = True
+	# 	elif doc.status == "Pending":
+	# 		if not doc.designed:
+	# 			if doc.workshoped:
+	# 				print("Workshop only")
+	# 				# jump_workflow(self.name, "Workshop Pending")
+	# 				doc.workflow_state = "Workshop Pending"
+	# 				doc.status = "Workshop Pending"
+	# 				status_changed = True
+	# 	if status_changed:
+	# 		doc.save()
+	# 		frappe.db.commit()
+	# 		print("Order and service status updated successfully.")
 
 	def handle_status_change(self):
-    # Fetch the parent order document
 		doc = frappe.get_doc("Order", self.order_number)
 		status_changed = False  # Flag to track changes
 
@@ -49,23 +48,27 @@ class SingleOrders(Document):
 				child.status = self.status
 				status_changed = True  # Track that a change happened
 
-		# Check if any service is not pending
-		if any(child.status != "Pending" for child in doc.get("services")):
-			if(doc.status != "In progress"):
+		# Determine new status based on child services
+		service_statuses = [child.status for child in doc.get("services")]
+
+		if any(status != "Pending" for status in service_statuses):
+			if doc.status != "In progress":
 				doc.status = "In progress"
 				doc.workflow_state = "In progress"
-				status_changed = True  # Track that a change happened
-		if all(child.status == "Completed" for child in doc.get("services")):
-			if(doc.status != "Completed"):
+				status_changed = True
+
+		if all(status == "Completed" for status in service_statuses):
+			if doc.status != "Completed":
 				doc.status = "Completed"
 				doc.workflow_state = "Completed"
-				status_changed = True  # Track that a change happened
+				status_changed = True
 
 		# Save only if there's a change
 		if status_changed:
-			doc.save()
+			doc.save(ignore_permissions=True)
 			frappe.db.commit()
-			print("Order and service status updated successfully.")
+			frappe.logger().info(f"Order {self.order_number} and service status updated successfully.")
+
 
 
 		
