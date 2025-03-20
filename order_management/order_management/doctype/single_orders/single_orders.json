@@ -84,8 +84,7 @@
    "fieldname": "source_docname",
    "fieldtype": "Data",
    "label": "Source Row",
-   "read_only": 1,
-   "unique": 1
+   "read_only": 1
   },
   {
    "fieldname": "recieved_by",
@@ -98,7 +97,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-16 00:15:33.415118",
+ "modified": "2025-03-20 14:31:53.908495",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Single Orders",
@@ -118,23 +117,19 @@
    "write": 1
   },
   {
-   "email": 1,
    "export": 1,
-   "print": 1,
+   "if_owner": 1,
    "read": 1,
    "report": 1,
    "role": "Designer",
-   "share": 1,
    "write": 1
   },
   {
-   "email": 1,
    "export": 1,
-   "print": 1,
+   "if_owner": 1,
    "read": 1,
    "report": 1,
    "role": "Workshop",
-   "share": 1,
    "write": 1
   },
   {
@@ -146,6 +141,18 @@
    "read": 1,
    "report": 1,
    "role": "Super Admin",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "if_owner": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Reception",
    "share": 1,
    "write": 1
   }

@@ -26,41 +26,51 @@ class SingleOrders(Document):
 				print('if self.workflow_state == "Workshop Pending": 1')
 				if self.designed:
 					print('if self.workflow_state == "Workshop Pending": 2')
-					self.workflow_state = "Completed"
-					self.status = "Completed"
+					frappe.db.set_value("Single Orders", self.name, "workflow_state", "Completed")
+					frappe.db.set_value("Single Orders", self.name, "status", "Completed")
 
 	def handle_status_change(self):
-		# Get the meta object for the Order doctype
-		doc = frappe.get_doc("Order", self.order_number)
-		doc.flags.ignore_permissions = True
+	
 		try:
-			doc = frappe.get_doc("Order", self.order_number)
+			services = frappe.get_all(
+				"Service Item",
+				fields=["status","name"],
+				filters={
+    			"parent": self.order_number
+  				},
+			)
+			
+			doc = frappe.db.get_value("Order", self.order_number,
+                ["workflow_state", "status","name"],as_dict=True)
 			status_changed = False  # Flag to track changes
 
-			for child in doc.get("services"):
+			for child in services:
 				if child.name == self.source_docname and child.status != self.status:
-					child.status = self.status
+					# child.status = self.status
+					frappe.db.set_value("Service Item", child.name, "status", self.status)
 					status_changed = True  # Track that a change happened
 
 			# Determine new status based on child services
-			service_statuses = [child.status for child in doc.get("services")]
+			service_statuses = [child.status for child in services]
 
 			if any(status != "Pending" for status in service_statuses):
 				if doc.status != "In progress":
-					doc.status = "In progress"
-					doc.workflow_state = "In progress"
+					frappe.db.set_value("Order", self.order_number, "workflow_state", "In progress")
+					frappe.db.set_value("Order", self.order_number, "status", "In progress",)
 					status_changed = True
 
 			if all(status == "Completed" for status in service_statuses):
 				if doc.status != "Completed":
-					doc.status = "Completed"
-					doc.workflow_state = "Completed"
+					frappe.db.set_value("Order", self.order_number, "workflow_state", "Completed")
+					frappe.db.set_value("Order", self.order_number, "status", "Completed",)
+					# doc.status = "Completed"
+					# doc.workflow_state = "Completed"
 					status_changed = True
 
 			# Save only if there's a change
 			if status_changed:
-				doc.save(ignore_permissions=True)
-				frappe.db.commit()
+				# doc.save(ignore_permissions=True)
+				# frappe.db.commit()
 				frappe.logger().info(f"Order {self.order_number} and service status updated successfully.")
 		finally:
 			# Restore the original permission check
