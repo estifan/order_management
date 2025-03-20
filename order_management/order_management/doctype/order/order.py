@@ -123,9 +123,10 @@ class Order(Document):
                                 transition.next_state == "Workshop Pending" and 
                                 transition.allowed == "Administrator"):
                                 # Apply the transition
-                                new_order.workflow_state = "Workshop Pending"
+                                # new_order.workflow_state = "Workshop Pending"
                                 new_order.status = "Workshop Pending"
                                 new_order.save(ignore_permissions=True)
+                                frappe.db.set_value("Single Orders", new_order.name, "workflow_state", "Workshop Pending")
                                 break
 
                     frappe.msgprint(f"Single Order created for {user['service']} with quantity {user['qty']}", alert=True, indicator="green")
