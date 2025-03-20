@@ -139,14 +139,13 @@
    "default": "Pending",
    "fieldname": "status",
    "fieldtype": "Select",
-   "hidden": 1,
    "label": "Status",
    "options": "Pending\nIn progress\nCompleted\nDelivered"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-20 14:32:40.870241",
+ "modified": "2025-03-20 16:22:16.680070",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Order",
@@ -187,15 +186,6 @@
    "role": "Super Admin",
    "share": 1,
    "write": 1
-  },
-  {
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Workshop",
-   "share": 1
   }
  ],
  "sort_field": "modified",

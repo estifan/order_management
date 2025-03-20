@@ -14,8 +14,8 @@ def allow_all(*args, **kwargs):
 
 class SingleOrders(Document):
 	def validate(self):
-		self.handle_workflow_jump()
 		self.handle_status_change()
+		self.handle_workflow_jump()
 	def after_save(self):
 		print('after save')
 
@@ -43,24 +43,36 @@ class SingleOrders(Document):
 			doc = frappe.db.get_value("Order", self.order_number,
                 ["workflow_state", "status","name"],as_dict=True)
 			status_changed = False  # Flag to track changes
-
+			print("services: ",services)
 			for child in services:
+				print("child: ",child)
 				if child.name == self.source_docname and child.status != self.status:
+					print("child.status: ",child.status)
 					# child.status = self.status
 					frappe.db.set_value("Service Item", child.name, "status", self.status)
 					status_changed = True  # Track that a change happened
+			services = frappe.get_all(
+				"Service Item",
+				fields=["status","name"],
+				filters={
+    			"parent": self.order_number
+  				},
+			)
 
 			# Determine new status based on child services
 			service_statuses = [child.status for child in services]
+			print("service_statuses: ",service_statuses)
 
 			if any(status != "Pending" for status in service_statuses):
 				if doc.status != "In progress":
+					print("set In progress")
 					frappe.db.set_value("Order", self.order_number, "workflow_state", "In progress")
 					frappe.db.set_value("Order", self.order_number, "status", "In progress",)
 					status_changed = True
 
 			if all(status == "Completed" for status in service_statuses):
 				if doc.status != "Completed":
+					print("set Completed")
 					frappe.db.set_value("Order", self.order_number, "workflow_state", "Completed")
 					frappe.db.set_value("Order", self.order_number, "status", "Completed",)
 					# doc.status = "Completed"
