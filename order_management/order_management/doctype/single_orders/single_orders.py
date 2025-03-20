@@ -14,31 +14,10 @@ def allow_all(*args, **kwargs):
 
 class SingleOrders(Document):
 	def validate(self):
+		self.handle_workflow_jump()
 		self.handle_status_change()
-
-	# def after_save(self):
-	# 	doc = frappe.get_doc("Single Orders", self.name)
-	# 	status_changed = False
-	# 	if doc.status == "Workshop Pending":
-	# 		if not doc.workshoped:
-	# 			if doc.designed:
-	# 				print("Designing only")
-	# 				# jump_workflow(self.name, "Completed")
-	# 				doc.workflow_state = "Completed"
-	# 				doc.status = "Completed"
-	# 				status_changed = True
-	# 	elif doc.status == "Pending":
-	# 		if not doc.designed:
-	# 			if doc.workshoped:
-	# 				print("Workshop only")
-	# 				# jump_workflow(self.name, "Workshop Pending")
-	# 				doc.workflow_state = "Workshop Pending"
-	# 				doc.status = "Workshop Pending"
-	# 				status_changed = True
-	# 	if status_changed:
-	# 		doc.save()
-	# 		frappe.db.commit()
-	# 		print("Order and service status updated successfully.")
+	def after_save(self):
+		print('after save')
 
 	def handle_workflow_jump(self):
 		if self.workflow_state == "Workshop Pending":
@@ -47,8 +26,8 @@ class SingleOrders(Document):
 				print('if self.workflow_state == "Workshop Pending": 1')
 				if self.designed:
 					print('if self.workflow_state == "Workshop Pending": 2')
-					self.workflow_state == "Completed"
-					self.status == "Completed"
+					self.workflow_state = "Completed"
+					self.status = "Completed"
 
 	def handle_status_change(self):
 		# Get the meta object for the Order doctype
