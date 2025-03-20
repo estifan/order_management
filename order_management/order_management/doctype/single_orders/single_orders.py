@@ -31,7 +31,8 @@ class SingleOrders(Document):
 
 	def handle_status_change(self):
 		# Get the meta object for the Order doctype
-		doc = frappe.get_doc("Order", self.order_number)
+		with frappe.as_admin():
+			doc = frappe.get_doc("Order", self.order_number)
 		doc.flags.ignore_permissions = True
 		try:
 			doc = frappe.get_doc("Order", self.order_number)
