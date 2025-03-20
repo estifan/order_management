@@ -31,12 +31,8 @@ class SingleOrders(Document):
 
 	def handle_status_change(self):
 		# Get the meta object for the Order doctype
-		meta = frappe.get_meta("Order")
-		# Store the original has_permission method
-		original_has_permission = meta.has_permission
-		
-		# Override the has_permission method to always return True
-		meta.has_permission = allow_all
+		doc = frappe.get_doc("Order", self.order_number)
+		doc.flags.ignore_permissions = True
 		try:
 			doc = frappe.get_doc("Order", self.order_number)
 			status_changed = False  # Flag to track changes
@@ -68,7 +64,7 @@ class SingleOrders(Document):
 				frappe.logger().info(f"Order {self.order_number} and service status updated successfully.")
 		finally:
 			# Restore the original permission check
-			meta.has_permission = original_has_permission
+			pass
 
 
 		
