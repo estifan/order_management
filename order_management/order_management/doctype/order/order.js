@@ -1,46 +1,67 @@
-// Copyright (c) 2025, Tilet Technologies and contributors
-// For license information, please see license.txt
-
 frappe.ui.form.on('Order', {
-	refresh: function(frm) {
+    refresh: function(frm) {
         calculate_total_payment(frm);
+        restrictPaymentFields(frm);
     },
 
-	services_add: function(frm) {
+
+    services_add: function(frm) {
         calculateTotals(frm);
     },
 
-	advance_payment: function(frm) {
-        if (frm.doc.full_payment && frm.doc.advance_payment) {
-            frm.set_value('remaining_payment', frm.doc.full_payment - frm.doc.advance_payment);
-        } else {
-            frm.set_value('remaining_payment', frm.doc.full_payment || 0);
-        }
+
+    advance_payment: function(frm) {
+        calculateRemainingPayment(frm);
     },
 
-	full_payment: function(frm) {
-        if (frm.doc.full_payment && frm.doc.advance_payment) {
-            frm.set_value('remaining_payment', frm.doc.full_payment - frm.doc.advance_payment);
-        } else {
-            frm.set_value('remaining_payment', frm.doc.full_payment || 0);
-        }
+
+    final_payment: function(frm) {
+        calculateRemainingPayment(frm);
     },
 
-	before_save: function(frm) {
-        
-            let today = new Date();
-            let formattedDate = today.toISOString().split('T')[0]; 
-    
-            frappe.model.set_value(frm.doctype, frm.docname, 'ordered_date', formattedDate);
-            console.log('Ordered date set to:', formattedDate);
-    
+
+    full_payment: function(frm) {
+        calculateRemainingPayment(frm);
+    },
+
+
+    before_save: function(frm) {
+        let today = new Date();
+        let formattedDate = today.toISOString().split('T')[0];
+        frappe.model.set_value(frm.doctype, frm.docname, 'ordered_date', formattedDate);
+        console.log('Ordered date set to:', formattedDate);
     },
 });
+
+
+function restrictPaymentFields(frm) {
+    frappe.call({
+        method: "frappe.client.get_value",
+        args: {
+            doctype: "User",
+            filters: { name: frappe.session.user },
+            fieldname: "roles"
+        },
+        callback: function(r) {
+            if (r.message) {
+                let user_roles = r.message.roles || [];
+                let is_cashier = frappe.user.has_role("Cashier");
+               
+                frm.toggle_enable('advance_payment', is_cashier);
+                frm.toggle_enable('final_payment', is_cashier);
+            }
+        }
+    });
+}
+
+
 frappe.ui.form.on('Service Item', {
     service: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
 
+
         frappe.model.set_value(cdt, cdn, 'quantity', 1);
+
 
         frappe.call({
             method: 'frappe.client.get_list',
@@ -63,13 +84,15 @@ frappe.ui.form.on('Service Item', {
             }
         });
     },
-	quantity: function(frm, cdt, cdn) {
+
+
+    quantity: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
         let total_price = row.quantity * row.unit_price;
         frappe.model.set_value(cdt, cdn, 'total_price', total_price);
     },
-
 });
+
 
 function calculateTotals(frm) {
     let total_order_price = 0;
@@ -78,6 +101,7 @@ function calculateTotals(frm) {
     });
     frm.set_value('full_payment', total_order_price);
 }
+
 
 frappe.ui.form.on('Service Item', {
     total_price: function(frm, cdt, cdn) {
@@ -88,6 +112,7 @@ frappe.ui.form.on('Service Item', {
     }
 });
 
+
 function calculate_total_payment(frm) {
     let total = 0;
     if (frm.doc.services) {
@@ -96,4 +121,16 @@ function calculate_total_payment(frm) {
         });
     }
     frm.set_value('full_payment', total);
+    calculateRemainingPayment(frm);
+}
+
+
+function calculateRemainingPayment(frm) {
+    let full_payment = frm.doc.full_payment || 0;
+    let advance_payment = frm.doc.advance_payment || 0;
+    let final_payment = frm.doc.final_payment || 0;
+
+
+    let remaining_payment = full_payment - advance_payment - final_payment;
+    frm.set_value('remaining_payment', remaining_payment);
 }
