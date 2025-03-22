@@ -45,7 +45,7 @@ class SingleOrders(Document):
 						print("services: ",services)
 						for child in services:
 							print("child: ",child)
-							if child.name == self.source_docname and child.status != self.status:
+							if child.name == self.source_docname:
 								print("child.status: ",child.status)
 								# child.status = self.status
 								frappe.db.set_value("Service Item", child.name, "status", "Completed")
