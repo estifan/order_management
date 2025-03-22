@@ -137,11 +137,11 @@
    "options": "ORD-.#####"
   },
   {
-   "default": "Pending",
+   "default": "Advance Payment",
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Pending\nIn progress\nCompleted\nDelivered"
+   "options": "Advance Payment\nPending\nIn progress\nCompleted\nFinal Payment\nDelivered"
   },
   {
    "fieldname": "final_payment",
@@ -151,7 +151,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-21 17:49:11.057777",
+ "modified": "2025-03-21 20:41:47.469688",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Order",
@@ -190,6 +190,16 @@
    "read": 1,
    "report": 1,
    "role": "Super Admin",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Cashier",
    "share": 1,
    "write": 1
   }

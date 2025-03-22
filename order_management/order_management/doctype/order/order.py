@@ -6,6 +6,7 @@ class Order(Document):
         self.calculate_totals()
         self.set_recieved_by()
         self.validate_services_table()
+        self.check_workflow_state_before_update()
 
     def validate_services_table(self):
         if self.services and isinstance(self.services, list):
@@ -23,6 +24,34 @@ class Order(Document):
 
     def set_recieved_by(self):
         self.recieved_by = frappe.session.user
+
+    def check_workflow_state_before_update(self):
+        if self.workflow_state != "Pending" and self.has_services_table_changed():
+            frappe.throw("Wait for payment acceptance before making further changes.")
+
+    def has_services_table_changed(self):
+        if self.is_new():
+            return False
+
+        old_doc = self.get_doc_before_save()
+        if not old_doc:
+            return False
+
+        old_services = old_doc.get('services', [])
+        new_services = self.get('services', [])
+
+        if len(old_services) != len(new_services):
+            return True
+
+        for old_item, new_item in zip(old_services, new_services):
+            if (old_item.designed != new_item.designed or
+                old_item.workshoped != new_item.workshoped or
+                old_item.service != new_item.service or
+                old_item.quantity != new_item.quantity or
+                old_item.total_price != new_item.total_price):
+                return True
+
+        return False
 
     def on_update(self):
         self.create_or_update_single_orders()
@@ -96,7 +125,6 @@ class Order(Document):
                     status = "Pending"
                     workflow_state = "Pending"
 
-                    # Create the new order with initial state
                     new_order = frappe.get_doc({
                         "doctype": "Single Orders",
                         "service": user["service"],
@@ -113,11 +141,8 @@ class Order(Document):
                     })
                     new_order.insert(ignore_permissions=True)
 
-                    # If only workshop is assigned, transition the workflow state properly
                     if user["workshoped"] and not user["designed"]:
-                        # Get the workflow document
                         workflow = frappe.get_doc("Workflow", {"document_type": "Single Orders"})
-                        # Find the transition from Pending to Workshop Pending
                         for transition in workflow.transitions:
                             if (transition.state == "Pending" and 
                                 transition.next_state == "Workshop Pending" and 
