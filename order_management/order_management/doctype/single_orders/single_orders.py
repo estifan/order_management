@@ -30,7 +30,55 @@ class SingleOrders(Document):
 					print('if self.workflow_state == "Workshop Pending": 2')
 					frappe.db.set_value("Single Orders", self.name, "workflow_state", "Completed")
 					frappe.db.set_value("Single Orders", self.name, "status", "Completed")
-					self.handle_status_change()
+					try:
+						services = frappe.get_all(
+							"Service Item",
+							fields=["status","name"],
+							filters={
+							"parent": self.order_number
+							},
+						)
+						
+						doc = frappe.db.get_value("Order", self.order_number,
+							["workflow_state", "status","name"],as_dict=True)
+						status_changed = False  # Flag to track changes
+						print("services: ",services)
+						for child in services:
+							print("child: ",child)
+							if child.name == self.source_docname and child.status != self.status:
+								print("child.status: ",child.status)
+								# child.status = self.status
+								frappe.db.set_value("Service Item", child.name, "status", "Completed")
+								status_changed = True  # Track that a change happened
+						services = frappe.get_all(
+							"Service Item",
+							fields=["status","name"],
+							filters={
+							"parent": self.order_number
+							},
+						)
+
+						# Determine new status based on child services
+						service_statuses = [child.status for child in services]
+						print("service_statuses: ",service_statuses)
+
+						if all(status == "Completed" for status in service_statuses):
+							if doc.status != "Completed":
+								print("set Completed")
+								frappe.db.set_value("Order", self.order_number, "workflow_state", "Completed")
+								frappe.db.set_value("Order", self.order_number, "status", "Completed",)
+								# doc.status = "Completed"
+								# doc.workflow_state = "Completed"
+								status_changed = True
+
+						# Save only if there's a change
+						if status_changed:
+							# doc.save(ignore_permissions=True)
+							# frappe.db.commit()
+							frappe.logger().info(f"Order {self.order_number} and service status updated successfully.")
+					finally:
+						# Restore the original permission check
+						pass
 
 	def handle_status_change(self):
 	
