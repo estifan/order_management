@@ -19,6 +19,7 @@ class SingleOrders(Document):
 		print('after save')
 	def on_update(self):
 		self.handle_workflow_jump()
+		self.handle_status_change()
 
 	def handle_workflow_jump(self):
 		if self.workflow_state == "Workshop Pending":
