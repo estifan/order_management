@@ -54,7 +54,8 @@ class Order(Document):
         return False
 
     def on_update(self):
-        self.create_or_update_single_orders()
+        if(self.workflow_state != "Advance Payment"):
+            self.create_or_update_single_orders()
 
     def create_or_update_single_orders(self):
         assigned_users = []
