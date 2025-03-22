@@ -22,6 +22,7 @@
   "services",
   "section2",
   "full_payment",
+  "final_payment",
   "column2",
   "advance_payment",
   "column3",
@@ -145,11 +146,16 @@
    "hidden": 1,
    "label": "Status",
    "options": "Pending\nIn progress\nCompleted\nDelivered"
+  },
+  {
+   "fieldname": "final_payment",
+   "fieldtype": "Currency",
+   "label": "Final Payment"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-22 12:26:49.844711",
+ "modified": "2025-03-22 23:28:43.723947",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Order",

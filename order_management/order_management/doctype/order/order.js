@@ -1,7 +1,7 @@
 frappe.ui.form.on('Order', {
     refresh: function(frm) {
         calculate_total_payment(frm);
-        restrictPaymentFields(frm);
+        // restrictPaymentFields(frm);
     },
 
 
@@ -34,25 +34,25 @@ frappe.ui.form.on('Order', {
 });
 
 
-function restrictPaymentFields(frm) {
-    frappe.call({
-        method: "frappe.client.get_value",
-        args: {
-            doctype: "User",
-            filters: { name: frappe.session.user },
-            fieldname: "roles"
-        },
-        callback: function(r) {
-            if (r.message) {
-                let user_roles = r.message.roles || [];
-                let is_cashier = frappe.user.has_role("Cashier");
+// function restrictPaymentFields(frm) {
+//     frappe.call({
+//         method: "frappe.client.get_value",
+//         args: {
+//             doctype: "User",
+//             filters: { name: frappe.session.user },
+//             fieldname: "roles"
+//         },
+//         callback: function(r) {
+//             if (r.message) {
+//                 let user_roles = r.message.roles || [];
+//                 let is_cashier = frappe.user.has_role("Cashier");
                
-                frm.toggle_enable('advance_payment', is_cashier);
-                frm.toggle_enable('final_payment', is_cashier);
-            }
-        }
-    });
-}
+//                 frm.toggle_enable('advance_payment', is_cashier);
+//                 frm.toggle_enable('final_payment', is_cashier);
+//             }
+//         }
+//     });
+// }
 
 
 frappe.ui.form.on('Service Item', {
