@@ -23,7 +23,8 @@ class Order(Document):
         self.full_payment = full_payment
 
     def set_recieved_by(self):
-        self.recieved_by = frappe.session.user
+        if not self.recieved_by:
+            self.recieved_by = frappe.session.user
 
     def check_workflow_state_before_update(self):
         if self.workflow_state != "Pending" and self.has_services_table_changed():
@@ -47,6 +48,7 @@ class Order(Document):
             if (old_item.designed != new_item.designed or
                 old_item.workshoped != new_item.workshoped or
                 old_item.service != new_item.service or
+                old_item.job_description != new_item.job_description or
                 old_item.quantity != new_item.quantity or
                 old_item.total_price != new_item.total_price):
                 return True
@@ -68,6 +70,7 @@ class Order(Document):
                         "workshoped": item.workshoped,
                         "service": item.service,
                         "qty": item.quantity,
+                        "job_description": item.job_description,
                         "name": item.name,
                     })
 
@@ -104,6 +107,10 @@ class Order(Document):
                             order_doc.workshoped = user["workshoped"]
                             updated_fields.append("workshoped")
 
+                        if order_doc.job_description != user["job_description"]:
+                            order_doc.job_description = user["job_description"]
+                            updated_fields.append("job_description")    
+
                         if updated_fields:
                             order_doc.save(ignore_permissions=True)
                             frappe.msgprint(f"Updated Single Order {existing['name']} with fields: {', '.join(updated_fields)}", alert=True, indicator="blue")
@@ -133,6 +140,7 @@ class Order(Document):
                         "recieved_by": self.recieved_by,
                         "contact_person": self.contact_person,
                         "qty": user["qty"],
+                        "job_description": user["job_description"],
                         "designed": user["designed"],
                         "workshoped": user["workshoped"],
                         "status": status,

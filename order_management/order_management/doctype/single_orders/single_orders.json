@@ -12,6 +12,7 @@
   "qty",
   "designed",
   "workshoped",
+  "job_description",
   "column1",
   "order_number",
   "recieved_by",
@@ -93,11 +94,16 @@
    "label": "Received By",
    "options": "User",
    "read_only": 1
+  },
+  {
+   "fieldname": "job_description",
+   "fieldtype": "Small Text",
+   "label": "Job Description"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-21 10:06:38.511985",
+ "modified": "2025-03-23 01:05:21.737341",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Single Orders",

@@ -35,6 +35,7 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Customer Name",
+   "read_only_depends_on": "eval: doc.workflow_state == \"Delivered\";",
    "reqd": 1
   },
   {
@@ -42,7 +43,7 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Contact Person",
-   "reqd": 1
+   "read_only_depends_on": "eval: doc.workflow_state == \"Delivered\";"
   },
   {
    "default": "+251-",
@@ -50,12 +51,13 @@
    "fieldtype": "Phone",
    "in_standard_filter": 1,
    "label": "Phone Number",
-   "reqd": 1
+   "read_only_depends_on": "eval: doc.workflow_state == \"Delivered\";"
   },
   {
    "fieldname": "emial",
    "fieldtype": "Data",
-   "label": "Email Address"
+   "label": "Email Address",
+   "read_only_depends_on": "eval: doc.workflow_state == \"Delivered\";"
   },
   {
    "fieldname": "column1",
@@ -64,7 +66,8 @@
   {
    "fieldname": "tin",
    "fieldtype": "Int",
-   "label": "Tin Numebr"
+   "label": "Tin Numebr",
+   "read_only_depends_on": "eval: doc.workflow_state == \"Delivered\";"
   },
   {
    "fieldname": "recieved_by",
@@ -80,12 +83,14 @@
    "in_list_view": 1,
    "label": "Ordered Date",
    "read_only": 1,
+   "read_only_depends_on": "eval: doc.workflow_state == \"Delivered\";",
    "reqd": 1
   },
   {
    "fieldname": "delivered_date",
    "fieldtype": "Date",
    "label": "Delivered Date",
+   "read_only_depends_on": "eval: doc.workflow_state == \"Delivered\";",
    "reqd": 1
   },
   {
@@ -96,7 +101,8 @@
    "fieldname": "services",
    "fieldtype": "Table",
    "label": "Services",
-   "options": "Service Item"
+   "options": "Service Item",
+   "read_only_depends_on": "eval: doc.workflow_state == \"Delivered\";"
   },
   {
    "fieldname": "section2",
@@ -107,7 +113,8 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Full Payment",
-   "read_only": 1
+   "read_only": 1,
+   "read_only_depends_on": "eval: doc.workflow_state == \"Delivered\";"
   },
   {
    "fieldname": "column2",
@@ -117,7 +124,8 @@
    "fieldname": "advance_payment",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Advance Payment"
+   "label": "Advance Payment",
+   "read_only_depends_on": "eval: doc.workflow_state == \"Delivered\";"
   },
   {
    "fieldname": "column3",
@@ -128,7 +136,8 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Remaining Payment",
-   "read_only": 1
+   "read_only": 1,
+   "read_only_depends_on": "eval: doc.workflow_state == \"Delivered\";"
   },
   {
    "default": "ORD-.#####",
@@ -137,7 +146,8 @@
    "hidden": 1,
    "in_list_view": 1,
    "label": "series",
-   "options": "ORD-.#####"
+   "options": "ORD-.#####",
+   "read_only_depends_on": "eval: doc.workflow_state == \"Delivered\";"
   },
   {
    "default": "Pending",
@@ -145,17 +155,19 @@
    "fieldtype": "Select",
    "hidden": 1,
    "label": "Status",
-   "options": "Pending\nIn progress\nCompleted\nDelivered"
+   "options": "Pending\nIn progress\nCompleted\nDelivered",
+   "read_only_depends_on": "eval: doc.workflow_state == \"Delivered\";"
   },
   {
    "fieldname": "final_payment",
    "fieldtype": "Currency",
-   "label": "Final Payment"
+   "label": "Final Payment",
+   "read_only_depends_on": "eval: doc.workflow_state == \"Delivered\";"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-22 23:28:43.723947",
+ "modified": "2025-03-23 01:55:21.379518",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Order",
@@ -178,6 +190,7 @@
    "create": 1,
    "email": 1,
    "export": 1,
+   "if_owner": 1,
    "print": 1,
    "read": 1,
    "report": 1,

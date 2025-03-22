@@ -32,8 +32,7 @@
    "fieldname": "material",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Material",
-   "reqd": 1
+   "label": "Material"
   },
   {
    "fieldname": "column1",
@@ -55,7 +54,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-14 14:33:21.802762",
+ "modified": "2025-03-23 01:00:30.489363",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Service",
