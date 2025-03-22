@@ -54,7 +54,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-23 01:00:30.489363",
+ "modified": "2025-03-23 02:37:00.949571",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Service",
@@ -95,6 +95,15 @@
    "role": "Reception",
    "share": 1,
    "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Manager",
+   "share": 1
   }
  ],
  "sort_field": "modified",
