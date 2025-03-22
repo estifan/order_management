@@ -22,7 +22,6 @@
   "services",
   "section2",
   "full_payment",
-  "final_payment",
   "column2",
   "advance_payment",
   "column3",
@@ -45,6 +44,7 @@
    "reqd": 1
   },
   {
+   "default": "+251-",
    "fieldname": "phone_number",
    "fieldtype": "Phone",
    "in_standard_filter": 1,
@@ -105,7 +105,8 @@
    "fieldname": "full_payment",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Full Payment"
+   "label": "Full Payment",
+   "read_only": 1
   },
   {
    "fieldname": "column2",
@@ -125,7 +126,8 @@
    "fieldname": "remaining_payment",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Remaining Payment"
+   "label": "Remaining Payment",
+   "read_only": 1
   },
   {
    "default": "ORD-.#####",
@@ -137,21 +139,17 @@
    "options": "ORD-.#####"
   },
   {
-   "default": "Advance Payment",
+   "default": "Pending",
    "fieldname": "status",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Status",
-   "options": "Advance Payment\nPending\nIn progress\nCompleted\nFinal Payment\nDelivered"
-  },
-  {
-   "fieldname": "final_payment",
-   "fieldtype": "Currency",
-   "label": "Final Payment"
+   "options": "Pending\nIn progress\nCompleted\nDelivered"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-21 20:41:47.469688",
+ "modified": "2025-03-22 12:17:55.571407",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Order",
@@ -190,16 +188,6 @@
    "read": 1,
    "report": 1,
    "role": "Super Admin",
-   "share": 1,
-   "write": 1
-  },
-  {
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Cashier",
    "share": 1,
    "write": 1
   }
