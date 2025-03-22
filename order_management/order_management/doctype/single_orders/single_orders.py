@@ -15,9 +15,10 @@ def allow_all(*args, **kwargs):
 class SingleOrders(Document):
 	def validate(self):
 		self.handle_status_change()
-		self.handle_workflow_jump()
 	def after_save(self):
 		print('after save')
+	def on_update(self):
+		self.handle_workflow_jump()
 
 	def handle_workflow_jump(self):
 		if self.workflow_state == "Workshop Pending":
