@@ -83,7 +83,6 @@
    "in_list_view": 1,
    "label": "Ordered Date",
    "read_only": 1,
-   "read_only_depends_on": "eval: doc.workflow_state == \"Delivered\";",
    "reqd": 1
   },
   {
@@ -113,8 +112,7 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Full Payment",
-   "read_only": 1,
-   "read_only_depends_on": "eval: doc.workflow_state == \"Delivered\";"
+   "read_only": 1
   },
   {
    "fieldname": "column2",
@@ -136,8 +134,7 @@
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Remaining Payment",
-   "read_only": 1,
-   "read_only_depends_on": "eval: doc.workflow_state == \"Delivered\";"
+   "read_only": 1
   },
   {
    "default": "ORD-.#####",
@@ -162,12 +159,12 @@
    "fieldname": "final_payment",
    "fieldtype": "Currency",
    "label": "Final Payment",
-   "read_only_depends_on": "eval: doc.workflow_state == \"Delivered\";"
+   "read_only_depends_on": "eval: doc.workflow_state == \"Delivered\" || !frappe.user_roles.includes(\"Cashier\")"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-23 02:35:14.142801",
+ "modified": "2025-03-23 02:58:28.831975",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Order",

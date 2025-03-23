@@ -91,6 +91,28 @@ frappe.ui.form.on('Service Item', {
         let total_price = row.quantity * row.unit_price;
         frappe.model.set_value(cdt, cdn, 'total_price', total_price);
     },
+
+    designed: function(frm, cdt, cdn) {
+        frm.fields_dict['services'].grid.get_field('designed').get_query = function() {
+            return {
+                query: "frappe.core.doctype.user.user.get_users_with_role",
+                filters: {
+                    role: "Designer"
+                }
+            };
+        };
+    },
+
+    workshoped: function(frm, cdt, cdn) {
+        frm.fields_dict['services'].grid.get_field('workshoped').get_query = function() {
+            return {
+                query: "frappe.core.doctype.user.user.get_users_with_role",
+                filters: {
+                    role: "Workshop"
+                }
+            };
+        };
+    },
 });
 
 

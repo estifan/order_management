@@ -98,12 +98,13 @@
   {
    "fieldname": "job_description",
    "fieldtype": "Small Text",
-   "label": "Job Description"
+   "label": "Job Description",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-23 02:36:28.615680",
+ "modified": "2025-03-23 02:51:17.183389",
  "modified_by": "Administrator",
  "module": "Order Management",
  "name": "Single Orders",
